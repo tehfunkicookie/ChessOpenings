@@ -1,0 +1,7 @@
+This program helps incorporate memory of chess openings and common traps
+
+The program will require an input file that has the moves for the opening or trap
+white will always move first so white is index 0. then black. 
+so white is always even number index. black is odd number index.
+
+since the amount of moves can vary, a vector will be used
