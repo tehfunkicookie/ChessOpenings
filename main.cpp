@@ -9,7 +9,7 @@
 #include <cctype>
 
 int display_opening_menu();
-void generateChessOpening(std::string opening);
+bool generateChessOpening(std::string opening);
 
 int main()
 {
@@ -22,52 +22,52 @@ int main()
         {
         case 1:
         {
-            generateChessOpening("QueensGambitDeclined.txt");
+            passTest = generateChessOpening("QueensGambitDeclined.txt");
             break;
         }
         case 2:
         {
-            generateChessOpening("KingsGambitAccepted.txt");
+            passTest = generateChessOpening("KingsGambitAccepted.txt");
             break;
         }
         case 3:
         {
-            generateChessOpening("SicillianNajdorf.txt");
+            passTest = generateChessOpening("SicillianNajdorf.txt");
             break;
         }
         case 4:
         {
-            generateChessOpening("LondonSystem.txt");
+            passTest = generateChessOpening("LondonSystem.txt");
             break;
         }
         case 5:
         {
-            generateChessOpening("ItalianGame.txt");
+            passTest = generateChessOpening("ItalianGame.txt");
             break;
         }
         case 6:
         {
-            generateChessOpening("ScotchGame.txt");
+            passTest = generateChessOpening("ScotchGame.txt");
             break;
         }
         case 7:
         {
-            generateChessOpening("DanishGambit.txt");
+            passTest = generateChessOpening("DanishGambit.txt");
             break;
         }
         case 8:
         {
-            generateChessOpening("StaffordGambitAccepted.txt");
+            passTest = generateChessOpening("StaffordGambitAccepted.txt");
             break;
         }
         case 9:
         {
-            generateChessOpening("CaroKann.txt");
+            passTest = generateChessOpening("CaroKann.txt");
             break;
         }
         case 10:
         {
-            generateChessOpening("RuyLopez.txt");
+            passTest = generateChessOpening("RuyLopez.txt");
             break;
         }
         case 11:
@@ -86,6 +86,8 @@ int main()
             std::cout << "You know the opening line!!!\n"
                       << std::endl;
         }
+
+        std::cout << std::endl;
 
         user_input = display_opening_menu();
     }
@@ -121,21 +123,30 @@ int display_opening_menu()
     return input;
 }
 
-void generateChessOpening(std::string opening)
+bool generateChessOpening(std::string opening)
 {
     std::vector<std::string> moves;
     std::string move;
     std::ifstream myfile;
 
+    std::cout << "You chose the " << opening << " opening\n"
+              << std::endl;
+
     myfile.open(opening);
 
     if (myfile.is_open())
     {
-        myfile >> move;
-        while (!myfile.eof())
+        while (myfile >> move)
         {
+            // std::cout << "the move being read from the file is: " << move << std::endl;
+            // std::cout << "The move being pushed to the vector of strings called move is " << move << std::endl;
             moves.push_back(move);
-            myfile >> move;
+            // myfile >> move;
+            // std::cout << "the next move being read in the file is now: " << move << std::endl;
+            // if (myfile.eof())
+            // {
+            //     moves.push_back(move);
+            // }
         }
     }
 
@@ -144,6 +155,13 @@ void generateChessOpening(std::string opening)
     std::cout << "If a piece is taken in the opening, it should be denoted by an 'x'. For example d4 e5 dxe5 means pawn to d4 pawn to e5 and then pawn on d4 takes e5." << std::endl;
     std::cout << "Start guessing the move order! Good luck!\n"
               << std::endl;
+
+    std::cout << "The current moves for this opening is this:\n"
+              << std::endl;
+    for (int i = 0; i < moves.size(); i++)
+    {
+        std::cout << "move " << i << " is: " << moves[i] << std::endl;
+    }
 
     bool user_guess = true;
     int move_number = 0;
@@ -156,7 +174,7 @@ void generateChessOpening(std::string opening)
         if (move_guess != moves[move_number])
         {
             std::cout << "That is not the correct move for this line. Try again" << std::endl;
-            return;
+            return false;
         }
 
         if (move_number != moves.size() - 1)
@@ -166,5 +184,5 @@ void generateChessOpening(std::string opening)
             move_number += 2;
         }
     }
-    return;
+    return true;
 }
